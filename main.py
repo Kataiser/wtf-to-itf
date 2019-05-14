@@ -1,5 +1,6 @@
 import copy
 import os
+import time
 import tkinter as tk
 from tkinter import filedialog
 
@@ -10,6 +11,7 @@ def main():
 
     file_path = filedialog.askopenfilename(initialdir=os.getcwd(), title="Select Hourglass movie file", filetypes=[("Hourglass movies", ('*.wtf', '.hgm'))])
     file_name = os.path.split(file_path)[-1]
+    start_time = time.perf_counter()
 
     try:
         with open(file_path, 'rb') as binary_file:
@@ -81,10 +83,12 @@ def main():
         old_held_keys = copy.copy(held_keys)
 
     out_joined = "// Generated from {}\n// by https://github.com/Kataiser/wtf-to-itf\n\n{}".format(file_name, '\n'.join(out))
-    print(out_joined, end='\n\n')
+    print(out_joined)
 
     with open(f'{file_name[:-4]}.itf', 'w') as out_file:
         out_file.write(out_joined)
+
+    print(f"\nTook {round(time.perf_counter() - start_time, 3)} seconds for {frames_total} frames and {len(out)} steps")
 
 
 if __name__ == '__main__':
