@@ -9,6 +9,7 @@ def main():
     root.withdraw()
 
     file_path = filedialog.askopenfilename(initialdir=os.getcwd(), title="Select Hourglass movie file", filetypes=[("Hourglass movies", ('*.wtf', '.hgm'))])
+    file_name = os.path.split(file_path)[-1]
 
     try:
         with open(file_path, 'rb') as binary_file:
@@ -22,11 +23,15 @@ def main():
     held_keys = []
     old_held_keys = []
     frames_unchanged = 0
+    frames_not_marked = 0
+    frames_total = 0
     key_codes = {27: 'escape', 13: 'enter', 38: 'up', 40: 'down', 37: 'left', 39: 'right', 90: 'z', 88: 'x', 67: 'c', 65: 'a', 83: 's', 68: 'd', 81: 'q', 49: '1', 50: '2', 51: '3', 52: '4',
                  53: '5', 54: '6', 55: '7', 56: '8', 57: '9'}
 
     for frame in data_split:
         frames_unchanged += 1
+        frames_not_marked += 1
+        frames_total += 1
         frame_keys = []
 
         for key_binary in frame:
@@ -58,16 +63,21 @@ def main():
                 out[-2] += str(frames_unchanged)
             except IndexError:
                 # early in the file
-                pass
+                out.insert(0, str(frames_unchanged))
 
             frames_unchanged = 0
 
+            if frames_not_marked >= 900:  # 30 seconds
+                len_of_out = len(out)
+                out.insert(len_of_out - 1, f"// Frame {frames_total}, step {len_of_out - 1}")
+                frames_not_marked = 0
+
         old_held_keys = copy.copy(held_keys)
 
-    out_joined = '\n'.join(out)
-    print(out_joined)
+    out_joined = "// Generated from {}\n// by https://github.com/Kataiser/wtf-to-itf\n\n{}".format(file_name, '\n'.join(out))
+    print(out_joined, end='\n\n')
 
-    with open(f'{os.path.split(file_path)[-1][:-4]}.itf', 'w') as out_file:
+    with open(f'{file_name[:-4]}.itf', 'w') as out_file:
         out_file.write(out_joined)
 
 
