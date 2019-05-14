@@ -34,6 +34,7 @@ def main():
         frames_total += 1
         frame_keys = []
 
+        pressed_keys = []
         for key_binary in frame:
             try:
                 current_key = key_codes[key_binary]
@@ -42,20 +43,25 @@ def main():
                 if current_key not in held_keys:
                     # key pressed this frame
                     held_keys.append(current_key)
+                    pressed_keys.append(current_key)
             except KeyError:
                 pass
 
+        released_keys = []
         for old_held_key in old_held_keys:
             if old_held_key not in frame_keys:
                 # key released this frame
                 held_keys.remove(old_held_key)
+                released_keys.append(old_held_key)
 
         if old_held_keys != held_keys:
             # held keys have been changed
             out_line = ''
 
-            for held_key in held_keys:
-                out_line += f'{held_key} '
+            for pressed_key in pressed_keys:
+                out_line += f'{pressed_key}- '
+            for released_key in released_keys:
+                out_line += f'{released_key}+ '
 
             out.append(out_line)
 
