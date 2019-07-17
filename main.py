@@ -89,7 +89,7 @@ def main():
         with open(f'{file_name[:-4]}.itf', 'w') as out_file:
             out_file.write(out_joined)
 
-        print(f"\n{file_path}: Took {round(time.perf_counter() - start_time, 3)} seconds for {frames_total} frames and {len(out)} steps")
+        print(f"\n\"{file_path}\": Took {round(time.perf_counter() - start_time, 3)} seconds for {frames_total} frames and {len(out)} steps")
 
 
 if __name__ == '__main__':
