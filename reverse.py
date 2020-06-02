@@ -28,8 +28,8 @@ def reverse():
         held_keys = []
         frames_total = 0
         steps_total = 0
-        key_codes = {'escape': 27, 'enter': 13, 'up': 38, 'down': 40, 'left': 37, 'right': 39, 'z': 90, 'x': 88, 'c': 67, 'a': 65, 's': 83, 'd': 68, 'q': 81, 'one': 49, 'two': 50, 'three': 51,
-                     'four': 52, 'five': 53, 'six': 54, 'seven': 55, 'eight': 56, 'nine': 57}
+        key_codes = {'escape': 27, 'enter': 13, 'u': 38, 'd': 40, 'l': 37, 'r': 39, 'z': 90, 'x': 88, 'c': 67, 's': 83, 'one': 49, 'two': 50, 'three': 51, 'four': 52, 'five': 53, 'six': 54,
+                     'seven': 55, 'eight': 56, 'nine': 57}
 
         for line in itf_data:
             if line.startswith('//') or line == '\n':

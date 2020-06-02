@@ -28,8 +28,8 @@ def main():
         frames_unchanged = 0
         frames_not_marked = 0
         frames_total = 0
-        key_codes = {27: 'escape', 13: 'enter', 38: 'up', 40: 'down', 37: 'left', 39: 'right', 90: 'z', 88: 'x', 67: 'c', 65: 'a', 83: 's', 68: 'd', 81: 'q', 49: 'one', 50: 'two', 51: 'three',
-                     52: 'four', 53: 'five', 54: 'six', 55: 'seven', 56: 'eight', 57: 'nine'}
+        key_codes = {27: 'escape', 13: 'enter', 38: 'u', 40: 'd', 37: 'l', 39: 'r', 90: 'z', 88: 'x', 67: 'c', 83: 's', 49: 'one', 50: 'two', 51: 'three', 52: 'four', 53: 'five', 54: 'six',
+                     55: 'seven', 56: 'eight', 57: 'nine'}
 
         for frame in data_split:
             frames_unchanged += 1
