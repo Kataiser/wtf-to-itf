@@ -25,10 +25,9 @@ def reverse():
             header_data = header_file.read()
 
         output = bytearray(header_data)
-        held_keys = []
         frames_total = 0
         steps_total = 0
-        key_codes = {'escape': 27, 'enter': 13, 'u': 38, 'd': 40, 'l': 37, 'r': 39, 'z': 90, 'x': 88, 'c': 67, 's': 83, 'one': 49, 'two': 50, 'three': 51, 'four': 52, 'five': 53, 'six': 54,
+        key_codes = {'escape': 27, 'enter': 13, 'U': 38, 'D': 40, 'L': 37, 'R': 39, 'Z': 90, 'X': 88, 'C': 67, 'S': 83, 'one': 49, 'two': 50, 'three': 51, 'four': 52, 'five': 53, 'six': 54,
                      'seven': 55, 'eight': 56, 'nine': 57}
 
         for line in itf_data:
@@ -36,23 +35,14 @@ def reverse():
                 continue
 
             frame_data = bytearray(b'\0' * 8)
-            line_split = line.split(' ')
-
-            for key_change in line_split[:-1]:
-                if key_change[-1] == '-':
-                    held_keys.append(key_change[:-1])
-                elif key_change[-1] == '+':
-                    held_keys.remove(key_change[:-1])
-
-            try:
-                line_frames = int(line_split[-1])
-            except ValueError:
-                line_frames = 1
+            line_split = line.rstrip('\n').split(',')
+            held_keys = line_split[1:]
+            line_frames = int(line_split[0])
 
             for key_held in enumerate(held_keys):
                 frame_data[key_held[0]] = key_codes[key_held[1]]
 
-            print("{}: {}".format(steps_total, line.rstrip('\n')))
+            print("{}: {}".format(frames_total, line.rstrip('\n')))
             output.extend(frame_data * line_frames)
             frames_total += line_frames
             steps_total += 1

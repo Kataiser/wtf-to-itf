@@ -28,7 +28,7 @@ def main():
         frames_unchanged = 0
         frames_not_marked = 0
         frames_total = 0
-        key_codes = {27: 'escape', 13: 'enter', 38: 'u', 40: 'd', 37: 'l', 39: 'r', 90: 'z', 88: 'x', 67: 'c', 83: 's', 49: 'one', 50: 'two', 51: 'three', 52: 'four', 53: 'five', 54: 'six',
+        key_codes = {27: 'escape', 13: 'enter', 38: 'U', 40: 'D', 37: 'L', 39: 'R', 90: 'Z', 88: 'X', 67: 'C', 83: 'S', 49: 'one', 50: 'two', 51: 'three', 52: 'four', 53: 'five', 54: 'six',
                      55: 'seven', 56: 'eight', 57: 'nine'}
 
         for frame in data_split:
@@ -36,6 +36,7 @@ def main():
             frames_not_marked += 1
             frames_total += 1
             frame_keys = []
+            prev_held_keys = copy.copy(held_keys)
 
             pressed_keys = []
             for key_binary in frame:
@@ -59,20 +60,10 @@ def main():
 
             if old_held_keys != held_keys:
                 # held keys have been changed
-                out_line = ''
-
-                for pressed_key in pressed_keys:
-                    out_line += f'{pressed_key}- '
-                for released_key in released_keys:
-                    out_line += f'{released_key}+ '
-
+                out_line = f"{' ' * (4 - len(str(frames_unchanged)))}{frames_unchanged}"
+                out_line = out_line if len(prev_held_keys) == 0 else f'{out_line},'
+                out_line += ','.join(prev_held_keys)
                 out.append(out_line)
-
-                try:
-                    out[-2] += str(frames_unchanged)
-                except IndexError:
-                    # early in the file
-                    out.insert(0, str(frames_unchanged))
 
                 frames_unchanged = 0
 
